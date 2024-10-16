@@ -10,6 +10,8 @@ using System.Web.Security;
 
 namespace Login.Controllers
 {
+    [AllowAnonymous]
+
     public class AccountController : Controller
     {
         public ActionResult SignUp()
@@ -49,6 +51,7 @@ namespace Login.Controllers
 
                 // Convert byte array to a string
                 StringBuilder builder = new StringBuilder();
+
                 for (int i = 0; i < bytes.Length; i++)
                 {
                     builder.Append(bytes[i].ToString("x2"));
@@ -67,6 +70,14 @@ namespace Login.Controllers
         [HttpPost]
         public ActionResult Login(User model)
         {
+            // Check if both Username and Password are provided
+            if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
+            {
+                // Add a validation error message for missing input
+                ModelState.AddModelError("", "Username and Password are required.");
+                return View();
+            }
+
             using (var context = new OfficeEntities())
             {
                 // Hash the entered password

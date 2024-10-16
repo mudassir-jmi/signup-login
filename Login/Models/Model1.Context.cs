@@ -27,5 +27,6 @@ namespace Login.Models
     
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
     }
 }
